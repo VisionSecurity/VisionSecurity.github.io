@@ -10,6 +10,7 @@ function setup() {
     //ipcRenderer.send('resize-me-please')
 
     //window size
+    //
     const aspect = 640/480
     height = 500//window.innerHeight;
     width = 500//height;//window.innerWidth;
