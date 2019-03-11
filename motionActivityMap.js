@@ -10,8 +10,9 @@ function setup() {
     //ipcRenderer.send('resize-me-please')
 
     //window size
-    width = window.innerWidth;
-    height = window.outerHeight;
+    const aspect = 640/480
+    height = 500//window.innerHeight;
+    width = 500//height;//window.innerWidth;
 
     frames = 0;
 
@@ -39,6 +40,7 @@ function setup() {
     //create the canvas and set up a videos stream
     createCanvas(width, height);
 
+
     canvas = document.getElementById("defaultCanvas0");
     ctx = canvas.getContext("2d");
 
@@ -54,10 +56,10 @@ function cameraProcess() {
     lastLoop = new Date();
 
     //clear canvas
-    background(255);
+    // background(255);
 
     //draw current video frame onto canvas
-    image(capture, 0, 0, width, height + 20);
+    image(capture, 0, 0, width, height);
 
     //draw a grid
     // grid(motionActivityMap.config);
@@ -189,8 +191,8 @@ function generateMotionBlocks(motionActivityMapObject) {
             //console.log("new block")
             motionActivityMapObject.motionBlocks.push(
                 new motionBlock(
-                    x * width / motionActivityMapObject.config.blocksLong,
-                    y * height / motionActivityMapObject.config.blocksTall,
+                    x * (width / motionActivityMapObject.config.blocksLong),
+                    y * (height / motionActivityMapObject.config.blocksTall),
                     width / motionActivityMapObject.config.blocksLong,
                     height / motionActivityMapObject.config.blocksTall,
                     motionActivityMapObject.config.sensitivity
