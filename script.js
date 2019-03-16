@@ -1,8 +1,9 @@
 window.onload = init
 
 function init() {
-    socket = io.connect('http://192.168.1.186:8080', {
-        reconnect: true
+    socket = io.connect('https://192.168.1.186:8080', {
+        reconnect: true,
+        secure: true
     });
     socket.on('connect', function(socket) {
         console.log('Connected!');
