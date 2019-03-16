@@ -6,195 +6,79 @@
     <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
     <style>
-    html, head, body{
-    padding:0;
-    margin:0;
-    }
-    body{
-    /*background-color:#4e4b4b;*/
-    background-color:black;
-    overflow:hidden;
-    /* font-family: 'Ubuntu', sans-serif; */
-    font-family: 'Press Start 2P', cursive;
-    color:white
-    }
-    canvas{
-    position: absolute;
-    top:10%;
-    left:0;
-    right:0;
-    margin:0 auto;
-    z-index:10;
-    }
-    #loadingScreen{
-    width:100%;
-    height:100%;
-    position:absolute;
-    left:0;
-    top:0;
-    text-align: center;
-    z-index:50;
-    background-color:black;
-    }
-    #loadingBar{
-    width:80%;
-    height:5px;
-    background-color:#EEEEEE;
-    margin:0 auto;
-    }
-    #loadingProgress{
-    width:1%;
-    height:5px;
-    background-color:blue;
-    }
-    .infoOverlay{
-        /*display:none;*/
-    width:100%;
-    height:100%;
-    position:absolute;
-    z-index:25;
-    left:0;
-    top:0;
-    }
-    .camInfo{
-    position: relative;
-    width:100%;
-    height:100%;
-    z-index:15;
-    text-align: center;
-    }
-    .tlCorner{
-    border-left:6px solid white;
-    border-top:6px solid white;
-    position:absolute;
-    left:50px;
-    top:50px;
-    width:100px;
-    height:100px
-    }
-    .trCorner{
-    border-right:6px solid white;
-    border-top:6px solid white;
-    position:absolute;
-    right:50px;
-    top:50px;
-    width:100px;
-    height:100px;
-    background-color:black;
-    }
-    .blCorner{
-    border-left:6px solid white;
-    border-bottom:6px solid white;
-    position:absolute;
-    left:50px;
-    bottom:90px;
-    width:100px;
-    height:100px
-    }
-    .brCorner{
-    border-right:6px solid white;
-    border-bottom:6px solid white;
-    position:absolute;
-    right:50px;
-    bottom:90px;
-    width:100px;
-    height:100px;
-    }
-    #disclaimer{
-    color: red;
-    position: absolute;
-    background-color: black;
-    width: fit-content;
-    padding: 3px;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    bottom: 115px;
-    text-align: center;
-    width: fit-content;
-    }
-    .infoList{
-    list-style-type: none;
-    text-decoration: none;
-    position: absolute;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    bottom: 20px;
-    text-align: center;
-    width: fit-content;
-    background-color: black;
-    }
-    .infoList > li{
-    float:left;
-    margin-left:10px;
-    }
-    #fps{
-    /* position:absolute;
-    left:0;
-    right:0;
-    margin:0 auto;
-    bottom:30px; */
-    /* margin-top: 80%; */
-    }
-    h5 {
-    line-height: 20px;
-    padding: 0;
-    margin: 0;
-    }
-    #alert{
-    display: none;
-    color: red;
-    background-color: black;
-    width: fit-content;
-    padding: 3px;
-    }
-    #date{
-    font-size: 10px;
-    }
+      html, head, body{
+        padding:0;
+        margin:0;
+      }
+      canvas, video {
+        padding:0;
+        margin:0;
+      }
+      #gc{
+        position:absolute;
+        left:0;
+        top:0;
+      }
+      #dc{
+        position:absolute;
+        right:0;
+        top:0;
+      }
+      #videoElement{
+        display:none;
+      }
+      .interface {
+        background-color:#eeeeee;
+      }
+      .fullscreen {
+        position:absolute;
+        width:100%;
+        height:100%;
+        left:0;
+        top:0;
+      }
+      .row {
+        width:100%;
+      }
+      .row-full {
+        height:100%;
+        width:100%;
+      }
+      .col-2 {
+        width:50%;
+        height:100%;
+        float:left;
+      }
+      .information {
+        /*border-right:1px solid black;*/
+        width:30%;
+        background-color:brown;
+      }
+      .webcam {
+        width:70%;
+        background-color:green;
+      }
+
     </style>
   </head>
   <body>
-    <!-- <script src="p5.dom.js"></script>-->
-    <!-- <script src="p5.js"></script> -->
-    <div id="loadingScreen">
-      <h1>Loading Motion Objects</h1>
-      <div id="loadingBar">
-        <div id="loadingProgress">
-        </div>
-      </div>
-    </div>
-    <div class="infoOverlay">
-      <div class="camInfo">
-        <h3>Camera: Master Bedroom</h3>
-        <div class="tlCorner">
-          <h5 id="alert">TRIGGERED</h5>
-        </div>
-        <div class="trCorner">
-          <p id="date"></p>
-        </div>
-        <!--  -->
-        <div class="blCorner"></div>
-        <div class="brCorner"></div>
-        <h5 id="disclaimer">VIDEO MOTION DETECTION IN PROGRESS</h5>
-        <ul class="infoList">
-          <li><h5 id="fps">fps: 10</h5></li>
-          <li><h5 id="sensitivity">sensitivity:30%</h5></li>
-          <li><h5 id="motionBlockGrid">motionBlockGrid: </h5></li>
-          <li><h5 id="triggered">triggered: false</h5></li>
-        </ul>
-      </div>
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.5/p5.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.5/addons/p5.sound.js"></script> -->
-    <script src="p5.dom.js"></script>
-    
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.5/addons/p5.dom.min.js"></script> -->
+    <div>
 
-    <script src="motionActivityMap.js"></script>
-    <script>
-    // You can also require other files to run in this process
-    //require('./renderer.js')
-    </script>
+      <video autoplay="true" id="videoElement">
+      </video>
+      <!-- <div class="interface fullscreen"> -->
+        <!-- <div class="row-full"> -->
+          <!-- <div class="information col-2"></div> -->
+          <!-- <div class="webcam col-2"> -->
+            <canvas id="gc" width="640px" height="480px"></canvas>
+            <canvas id="dc" width="640px" height="480px"></canvas>  
+
+          <!-- </div> -->
+        <!-- </div> -->
+      <!-- </div> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ClientJS/0.1.11/client.js"></script>
+    <script src="pixelmatch.js"></script>
+    <script src="script.js"></script>
   </body>
 </html>
